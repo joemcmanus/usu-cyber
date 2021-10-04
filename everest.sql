@@ -1,6 +1,6 @@
 /*file: insecure.php
  purpose: Simple Insecure PHP Example
- author: Joe McManus joe.mcmanus@coloado.edu
+ author: Joe McManus joe.mcmanus@usu.edu
  version: 1.0
  date: 2014/09/26
 */
