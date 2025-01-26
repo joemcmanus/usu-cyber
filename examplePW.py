@@ -35,6 +35,9 @@ def sha512Hash(data):
     hashObject = hashlib.sha512(data.encode())
     return hashObject.hexdigest()
 
+if not args.passwd or not args.user:
+    print("Must provide an argument --add|--query --user foo --pass bar")
+    quit() 
 
 #first check to see if we have a database, if not initialise with aggie
 dbFile="example.sq3"
@@ -44,12 +47,6 @@ if not os.path.exists(dbFile):
     db.row_factory = sqlite3.Row
     query="""CREATE TABLE passwords (ID INTEGER PRIMARY KEY, username VARCHAR(255) UNIQUE, password VARCHAR(1024), salt VARCHAR(1024))"""
     queryOneRow(query)
-    table= PrettyTable(["Option", "Value"])
-    table.add_row(["Username", args.user])
-    table.add_row(["Clear Password", args.passwd])
-    table.add_row(["Salt", salt])
-    table.add_row(["Encrypted Password", encryptedPass])
-    print(table)
 
 def queryAllRowsVar(query,var):
     cursor=db.cursor()
@@ -68,6 +65,13 @@ if args.add:
     cursor=db.cursor()
     cursor.execute(query, t)
     db.commit() 
+    table= PrettyTable(["Option", "Value"])
+    table.add_row(["Username", args.user])
+    table.add_row(["Clear Password", args.passwd])
+    table.add_row(["Salt", salt])
+    table.add_row(["Encrypted Password", encryptedPass])
+    print(table)
+
     
 if args.query:
     db = sqlite3.connect(dbFile)
